@@ -22,7 +22,6 @@ test('ID005 GET article by slug', async ({ authedClient, createdArticleSlug }) =
 
 test('ID006 Delete article', async ({ authedClient, createdArticleSlug }) => {
 
-    console.log(createdArticleSlug)
     const deleteResp = await authedClient.articles.deleteArticle(createdArticleSlug);
     expect(deleteResp.status(), `DELETE /articles/${createdArticleSlug} failed`).toBe(204);
 
@@ -59,7 +58,6 @@ test('ID008 Update article (PUT)', async ({ authedClient, articleForUpdate }) =>
   expect(response.status()).toBe(200);
 
   const updated = await response.json();
-  console.log(updated);
   expect(updated.article.title).toBe(updatePayload.title);
   expect(updated.article.description).toBe(updatePayload.description);
 });

@@ -13,7 +13,6 @@ test('ID001 @user Sign UP with new User', async ({ request }) => {
     };
     const client = new APIClient(request);
 
-    console.log(uniqueUser);
     const signUp = await client.auth.signUp(uniqueUser);
 
     expect(signUp.status(), 'Sign up should return 200').toBe(200);
@@ -50,7 +49,6 @@ test('ID003 @user GET user', async ({ authedClient }) => {
     const userBody = await getMyUser.json();
     expect(userBody.user.token).toBeDefined();
     expect(userBody.user.email).toBe(process.env.EMAIL);
-    console.log(userBody)
 });
 
 test('ID004 @user Update (PUT) user', async ({ authedClient }) => {
