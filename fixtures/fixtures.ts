@@ -72,17 +72,17 @@ export const test = base.extend<Fixtures>({
         await use(article);
         await authedClient.articles.deleteArticle(article.slug);
     },
-    writeTags: async ({ request }, use) => {
-        const resp = await request.get(`${process.env.API_BASE_URL}/tags`);
-        if (!resp.ok()) {
-            throw new Error(`Failed to fetch tags: ${resp.status()}`);
-        }
-        const body = await resp.json();
-        const tags: string[] = body.tags;
-        fs.writeFileSync('tags.csv', tags.join('\n'), 'utf-8');
-        await use(request);
+    // writeTags: async ({ request }, use) => {
+    //     const resp = await request.get(`${process.env.API_BASE_URL}/tags`);
+    //     if (!resp.ok()) {
+    //         throw new Error(`Failed to fetch tags: ${resp.status()}`);
+    //     }
+    //     const body = await resp.json();
+    //     const tags: string[] = body.tags;
+    //     fs.writeFileSync('tags.csv', tags.join('\n'), 'utf-8');
+    //     await use(request);
 
-    },
+    // },
 
 
 })
