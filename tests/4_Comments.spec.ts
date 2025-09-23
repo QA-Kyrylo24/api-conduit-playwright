@@ -6,8 +6,8 @@ test(' Add comment to article', async ({ authedClient, createdArticleSlug }) => 
         body: "test123"
     };
 
-    const commentCreated = await authedClient.articles.addComment(createdArticleSlug, comment);  
-    expect(commentCreated.ok()).toBeTruthy();  
+    const commentCreated = await authedClient.articles.addComment(createdArticleSlug, comment);
+    expect(commentCreated.ok()).toBeTruthy();
     const body = await commentCreated.json();
     expect(body).toHaveProperty('comment');
     expect(body.comment.body).toBe(comment.body);

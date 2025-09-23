@@ -53,15 +53,15 @@ test('ID003 @user GET user', async ({ authedClient }) => {
 
 test('ID004 @user Update (PUT) user', async ({ authedClient }) => {
 
-   const updatePayload = UserFactory.createUpdateUserPayload({
-    bio: 'updated via factory',
-    username: 'automationqa1updated',
-  });
-  const response = await authedClient.users.updateUser(updatePayload);
+    const updatePayload = UserFactory.createUpdateUserPayload({
+        bio: 'updated via factory',
+        username: 'automationqa1updated',
+    });
+    const response = await authedClient.users.updateUser(updatePayload);
 
-  expect(response.status()).toBe(200);
+    expect(response.status()).toBe(200);
 
-  const body = await response.json();
-  expect(body.user.bio).toBe(updatePayload.bio);
-  expect(body.user.username).toBe(updatePayload.username);
+    const body = await response.json();
+    expect(body.user.bio).toBe(updatePayload.bio);
+    expect(body.user.username).toBe(updatePayload.username);
 });

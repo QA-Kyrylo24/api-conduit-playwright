@@ -16,7 +16,7 @@ test.describe('Search articles by tags', () => {
       const body = await resp.json();
 
       for (const article of body.articles) {
-        expect(article.tagList, `Article "${article.title}" should contain tag "${tag}"` ).toContain(tag);
+        expect(article.tagList, `Article "${article.title}" should contain tag "${tag}"`).toContain(tag);
       }
     });
   }
