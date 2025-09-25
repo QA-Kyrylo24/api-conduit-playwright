@@ -17,8 +17,8 @@ test(' Add comment to article', async ({ authedClient, createdArticleSlug }) => 
     const getResponse = await authedClient.articles.getComments(createdArticleSlug);
     expect(getResponse.ok()).toBeTruthy();
     const comments = await getResponse.json();
-    const deletedComment = comments.comments.find(comment => comment.id === commentID);
-    expect(deletedComment, 'Deleted comment should not be found').toBeDefined();
+    const commentForDeletion = comments.comments.find(comment => comment.id === commentID);
+    expect(commentForDeletion).toBeDefined();
 
     const deleteResponse = await authedClient.articles.deleteComment(createdArticleSlug, commentID);
     expect(deleteResponse.ok(), 'Comment should be deleted successfully').toBeTruthy();
