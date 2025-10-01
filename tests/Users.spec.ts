@@ -2,7 +2,7 @@ import { test } from '../fixtures/fixtures';
 import { expect } from '@playwright/test';
 import { APIClient } from '../controllers/APIClient';
 import { faker } from '@faker-js/faker';
-import { UserFactory } from '../fixtures/PayloadFactory';
+import { UserFactory } from '../Helpers/PayloadFactory';
 
 
 test('ID001 @user Sign UP with new User', async ({ request }) => {
@@ -42,7 +42,6 @@ test('ID002 @user Login with existing User', async ({ request }) => {
 });
 
 test('ID003 @user GET user', async ({ authedClient }) => {
-
     const getMyUser = await authedClient.users.getUser();
     expect(getMyUser.ok(), `GET /user failed: ${getMyUser.status()}`).toBeTruthy();
 
@@ -52,7 +51,6 @@ test('ID003 @user GET user', async ({ authedClient }) => {
 });
 
 test('ID004 @user Update (PUT) user', async ({ authedClient }) => {
-
     const updatePayload = UserFactory.createUpdateUserPayload({
         bio: 'updated via factory',
         username: 'automationqa1updated',

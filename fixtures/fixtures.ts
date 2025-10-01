@@ -1,7 +1,8 @@
 import { test as base, request, APIRequestContext } from '@playwright/test';
 import { APIClient } from '../controllers/APIClient';
-import { validateToken } from './TokenHelper';
-import { ArticleBuilder } from '../fixtures/ArticleBuilder';
+import { validateToken } from '../Helpers/TokenHelper';
+import { ArticleBuilder } from '../Helpers/ArticleBuilder';
+import { ArticleHelper } from '../Helpers/ArticleHelper';
 import { Article } from '../utils/Interface';
 import fs from 'fs';
 
@@ -39,39 +40,28 @@ export const test = base.extend<Fixtures>({
     },
 
     createdArticleSlug: async ({ authedClient }, use) => {
-        const articlePayload = new ArticleBuilder()
-            .withTitle('Test Article')
-            .withDescription('Description for test article')
-            .withBody('Body of the article')
-            .build();
+    const articleHelper = new ArticleHelper(authedClient);
+    const article = await articleHelper.createArticle(
+      "Test Article",
+      "Description for test article",
+      "Body of the article"
+    );
 
-        const response = await authedClient.articles.createArticle(articlePayload);
-        if (!response.ok()) {
-            throw new Error(`Failed to create article: ${response.status()}`);
-        }
-
-        const body = await response.json();
-        const slug = body.article.slug;
-        await use(slug);
-        await authedClient.articles.deleteArticle(slug);
+    await use(article.slug);
     },
-    articleForUpdate: async ({ authedClient }, use) => {
-        const articlePayload = new ArticleBuilder()
-            .withTitle('Test Article')
-            .withDescription('Description for test article')
-            .withBody('Body of the article')
-            .build();
 
-        const response = await authedClient.articles.createArticle(articlePayload);
-        if (!response.ok()) {
-            throw new Error(`Failed to create article: ${response.status()}`);
-        }
+    // articleForUpdate: async ({ authedClient }, use) => {
+    // const articleHelper = new ArticleHelper(authedClient);
+    // const article = await articleHelper.createArticle(
+    //   "Test Article",
+    //   "Description for test article",
+    //   "Body of the article"
+    // );
 
-        const body = await response.json();
-        const article = body.article;
-        await use(article);
-        await authedClient.articles.deleteArticle(article.slug);
-    },
+    // await use(article);
+
+    // await articleHelper.deleteArticle(article.slug);
+    // },
     // writeTags: async ({ request }, use) => {
     //     const resp = await request.get(`${process.env.API_BASE_URL}/tags`);
     //     if (!resp.ok()) {

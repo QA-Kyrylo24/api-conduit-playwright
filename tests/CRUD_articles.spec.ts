@@ -1,7 +1,7 @@
 import { test } from '../fixtures/fixtures';
 import { expect } from '@playwright/test';
 import { articleSchema } from '../utils/articleSchema';
-import { ArticleBuilder } from '../fixtures/ArticleBuilder';
+import { ArticleBuilder } from '../Helpers/ArticleBuilder';
 import { UpdateArticlePayload } from '../controllers/Articles/ArticlesController';
 
 test('ID005 GET article by slug', async ({ authedClient, createdArticleSlug }) => {
@@ -21,7 +21,6 @@ test('ID005 GET article by slug', async ({ authedClient, createdArticleSlug }) =
 });
 
 test('ID006 Delete article', async ({ authedClient, createdArticleSlug }) => {
-
     const deleteResp = await authedClient.articles.deleteArticle(createdArticleSlug);
     expect(deleteResp.status(), `DELETE /articles/${createdArticleSlug} failed`).toBe(204);
 
@@ -30,7 +29,6 @@ test('ID006 Delete article', async ({ authedClient, createdArticleSlug }) => {
 });
 
 test('ID007 Create article (POST)', async ({ authedClient }) => {
-
     const articlePayload = new ArticleBuilder()
         .withTitle('My Test Article')
         .withDescription('Description for test article')
@@ -47,14 +45,14 @@ test('ID007 Create article (POST)', async ({ authedClient }) => {
     expect(body.article.tagList).toEqual(articlePayload.tagList);
 });
 
-test('ID008 Update article (PUT)', async ({ authedClient, articleForUpdate }) => {
+test('ID008 Update article (PUT)', async ({ authedClient, createdArticleSlug }) => {
     const updatePayload: UpdateArticlePayload = {
-        title: articleForUpdate.title + '_updated',
+        title: 'updated',
         description: 'Updated description',
         tagList: ["updated_tags"]
     };
 
-    const response = await authedClient.articles.updateArticle(articleForUpdate.slug, updatePayload);
+    const response = await authedClient.articles.updateArticle(createdArticleSlug, updatePayload);
     expect(response.status()).toBe(200);
 
     const updated = await response.json();
